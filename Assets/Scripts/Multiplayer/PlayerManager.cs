@@ -47,7 +47,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     void CreateController()
     { 
         PC = PhotonNetwork.Instantiate(PC.name, spawnPoint, Quaternion.identity);
-        PC.transform.SetParent(transform); 
+        PC.name = "LocalPC";
+        //PC.transform.SetParent(transform); 
     }
 
     void TabListCreate()

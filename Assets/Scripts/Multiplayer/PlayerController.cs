@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public bool qInput;
     public bool xInput;
 
-    public bool tabInput;
-
     [Header("Forces")]
     //right and left movement
     public float forwardForce;
@@ -63,10 +61,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
         {
             //playerCam.GetComponent<Camera>().enabled = false;
             //playerCam.GetComponent<AudioListener>().enabled = false;
-            //rb.isKinematic = true;
+            rb.isKinematic = true;
+            rb.detectCollisions = true;
             playerCam.SetActive(false);
             mainCanvas.SetActive(false);
-            Destroy(rb);
+            //Destroy(rb);
         }
 
         roomManager = GameObject.FindGameObjectWithTag("RoomManager").GetComponent<RoomManager>();
@@ -78,7 +77,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         if(!PV.IsMine) return;
         
         MyInput();
-        EscPanel();
         Look();
         EffectsCheck();
 
@@ -206,23 +204,6 @@ public class PlayerController : MonoBehaviourPunCallbacks
         Destroy(transform.parent);
     }
 
-    public void TabPanel()
-    {
-
-        if (Input.GetKeyDown(KeyCode.Tab)) canvasManager.tabPanel.SetActive(true);
-        if (Input.GetKeyUp(KeyCode.Tab)) canvasManager.tabPanel.SetActive(false);
-
-        canvasManager.playerCount.text = PhotonNetwork.PlayerList.Length.ToString();
-    }
-
-    public void EscPanel()
-    {
-        if( Input.GetKeyDown(KeyCode.Escape)) canvasManager.escPanel.SetActive(true);
-        if( Input.GetKeyUp(KeyCode.Escape)) canvasManager.escPanel.SetActive(false);
-
-    }
-
-
 
 [PunRPC]
     public void DestroyStep(int viewID)
@@ -254,29 +235,26 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     //checks for triggers
-    private void OnTriggerEnter(Collider collisionInfo)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collisionInfo.gameObject.tag == "Step")
+        if(other.CompareTag("Step"))
         {
             IncreaseSteps();
-            //PhotonNetwork.Destroy(collisionInfo.gameObject.GetPhotonView());
-            //Destroy(collisionInfo.gameObject);
 
-            PV.RPC(nameof(DestroyStep), RpcTarget.MasterClient , collisionInfo.GetComponent<PhotonView>().ViewID);
+            PV.RPC(nameof(DestroyStep), RpcTarget.MasterClient , other.GetComponent<PhotonView>().ViewID);
         }
         
-        else if(collisionInfo.gameObject.tag == "DMerit")
+        else if(other.CompareTag("DMerit"))
         {
             DMerits++;
-            PV.RPC(nameof(DestroyDMerit), RpcTarget.MasterClient, collisionInfo.GetComponent<PhotonView>().ViewID);
+            PV.RPC(nameof(DestroyDMerit), RpcTarget.MasterClient, other.GetComponent<PhotonView>().ViewID);
 
         }
 
-        else if(collisionInfo.gameObject.name == "END" && roomManager.gameEnded == false)
+        else if(other.gameObject.name == "END" && roomManager.gameEnded == false)
         {
-            roomManager.gameEnded = true;
-            roomManager.CompleteLevel(gameObject);
             rb.velocity = Vector3.zero;
+            roomManager.CompleteLevel(gameObject);
         }
 
         else

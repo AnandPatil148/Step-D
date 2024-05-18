@@ -2433,6 +2433,7 @@ RectTransform:
   - {fileID: 981238676}
   - {fileID: 1019989833}
   - {fileID: 690169398}
+  - {fileID: 882913218}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2537,7 +2538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dab5f276d1b0064cb1a7130f4c30107, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  joinedRoom: 0
   roomManager: {fileID: 8517056624272732253, guid: 69faceeba93ac2d4eb19c8a36a81e2f9, type: 3}
   roomNameInputField: {fileID: 837332675}
   roomListContent: {fileID: 154428629}
@@ -6847,7 +6847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &882913218
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6856,16 +6856,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 882913217}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 90}
-  m_LocalScale: {x: 0.10691672, y: 0.10691672, z: 0.10691672}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_Father: {fileID: 305529764}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.55700004, y: 0.9077039}
   m_AnchorMax: {x: 0.55700004, y: 0.9077039}
-  m_AnchoredPosition: {x: 5419.0815, y: -498.0466}
+  m_AnchoredPosition: {x: -766.2502, y: -435.64365}
   m_SizeDelta: {x: 450, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &882913219
@@ -6888,7 +6888,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: test
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9097,7 +9097,7 @@ MonoBehaviour:
   Name: 
   PFP: 
   titleMenu: {fileID: 1409611430}
-  MessageText: {fileID: 882913219}
+  SystemText: {fileID: 882913219}
   EmailLoginInput: {fileID: 1733451682}
   PasswordLoginInput: {fileID: 483409325}
   LoginPage: {fileID: 1724537256}
@@ -9120,7 +9120,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1351344822
 GameObject:

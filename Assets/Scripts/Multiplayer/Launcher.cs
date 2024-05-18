@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 public class Launcher : MonoBehaviourPunCallbacks
 {
 
-    public bool joinedRoom;
     public static Launcher Instance;
 
     public Player[] players;
@@ -94,7 +93,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 		MenuManager.Instance.OpenMenu("loading");
 	}
 
-
     //Join Room
     public void JoinRoom(RoomInfo info)
 	{
@@ -108,13 +106,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
 	{   
         //Instantiates RoomManager if it is not there
-        if(!GameObject.Find("RoomManager") &&  PhotonNetwork.IsMasterClient) 
+        if(!GameObject.Find("RoomManager")) 
         {
-            Instantiate(roomManager, Vector3.zero, Quaternion.identity);
+            Instantiate(roomManager, Vector3.zero, Quaternion.identity).name = "RoomManager";
         }
 
         MenuManager.Instance.OpenMenu("room");
-        joinedRoom = true;
         
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -173,7 +170,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     //After leaving room
     public override void OnLeftRoom()
 	{
-        joinedRoom = false;
         Destroy(GameObject.FindGameObjectWithTag("RoomManager"));
 		MenuManager.Instance.OpenMenu("title");
 	}

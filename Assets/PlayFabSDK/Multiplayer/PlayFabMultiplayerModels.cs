@@ -94,7 +94,8 @@ namespace PlayFab.MultiplayerModels
         WestUs2,
         CentralIndia,
         UaeNorth,
-        UkSouth
+        UkSouth,
+        SwedenCentral
     }
 
     public enum AzureVmFamily
@@ -107,6 +108,7 @@ namespace PlayFab.MultiplayerModels
         Fsv2,
         Dasv4,
         Dav4,
+        Dadsv5,
         Eav4,
         Easv4,
         Ev4,
@@ -116,7 +118,9 @@ namespace PlayFab.MultiplayerModels
         NCasT4_v3,
         Ddv4,
         Ddsv4,
-        HBv3
+        HBv3,
+        Ddv5,
+        Ddsv5
     }
 
     public enum AzureVmSize
@@ -155,6 +159,10 @@ namespace PlayFab.MultiplayerModels
         Standard_D4a_v4,
         Standard_D8a_v4,
         Standard_D16a_v4,
+        Standard_D2ads_v5,
+        Standard_D4ads_v5,
+        Standard_D8ads_v5,
+        Standard_D16ads_v5,
         Standard_E2a_v4,
         Standard_E4a_v4,
         Standard_E8a_v4,
@@ -185,7 +193,17 @@ namespace PlayFab.MultiplayerModels
         Standard_HB120_32rs_v3,
         Standard_HB120_64rs_v3,
         Standard_HB120_96rs_v3,
-        Standard_HB120rs_v3
+        Standard_HB120rs_v3,
+        Standard_D2d_v5,
+        Standard_D4d_v5,
+        Standard_D8d_v5,
+        Standard_D16d_v5,
+        Standard_D32d_v5,
+        Standard_D2ds_v5,
+        Standard_D4ds_v5,
+        Standard_D8ds_v5,
+        Standard_D16ds_v5,
+        Standard_D32ds_v5
     }
 
     [Serializable]
@@ -611,6 +629,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public List<GameCertificateReferenceParams> GameCertificateReferences;
         /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReferenceParams> GameSecretReferences;
+        /// <summary>
         /// The Linux instrumentation configuration for the build.
         /// </summary>
         public LinuxInstrumentationConfiguration LinuxInstrumentationConfiguration;
@@ -639,12 +661,6 @@ namespace PlayFab.MultiplayerModels
         /// The resource constraints to apply to each server on the VM (EXPERIMENTAL API)
         /// </summary>
         public ServerResourceConstraintParams ServerResourceConstraints;
-        /// <summary>
-        /// DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-        /// written first to disc.
-        /// </summary>
-        [Obsolete("Use '' instead", false)]
-        public bool? UseStreamingForAssetDownloads;
         /// <summary>
         /// The VM size to create the build on.
         /// </summary>
@@ -695,6 +711,10 @@ namespace PlayFab.MultiplayerModels
         /// The game certificates for the build.
         /// </summary>
         public List<GameCertificateReference> GameCertificateReferences;
+        /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReference> GameSecretReferences;
         /// <summary>
         /// The Linux instrumentation configuration for this build.
         /// </summary>
@@ -778,6 +798,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public List<GameCertificateReferenceParams> GameCertificateReferences;
         /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReferenceParams> GameSecretReferences;
+        /// <summary>
         /// The directory containing the game executable. This would be the start path of the game assets that contain the main game
         /// server executable. If not provided, a best effort will be made to extract it from the start game command.
         /// </summary>
@@ -815,12 +839,6 @@ namespace PlayFab.MultiplayerModels
         /// The command to run when the multiplayer server is started, including any arguments.
         /// </summary>
         public string StartMultiplayerServerCommand;
-        /// <summary>
-        /// DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-        /// written first to disc.
-        /// </summary>
-        [Obsolete("Use '' instead", false)]
-        public bool? UseStreamingForAssetDownloads;
         /// <summary>
         /// The VM size to create the build on.
         /// </summary>
@@ -867,6 +885,10 @@ namespace PlayFab.MultiplayerModels
         /// The game certificates for the build.
         /// </summary>
         public List<GameCertificateReference> GameCertificateReferences;
+        /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReference> GameSecretReferences;
         /// <summary>
         /// The directory containing the game executable. This would be the start path of the game assets that contain the main game
         /// server executable. If not provided, a best effort will be made to extract it from the start game command.
@@ -956,12 +978,16 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public List<GameCertificateReferenceParams> GameCertificateReferences;
         /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReferenceParams> GameSecretReferences;
+        /// <summary>
         /// The working directory for the game process. If this is not provided, the working directory will be set based on the
         /// mount path of the game server executable.
         /// </summary>
         public string GameWorkingDirectory;
         /// <summary>
-        /// The instrumentation configuration for the build.
+        /// The instrumentation configuration for the Build. Used only if it is a Windows Build.
         /// </summary>
         public InstrumentationConfiguration InstrumentationConfiguration;
         /// <summary>
@@ -969,6 +995,10 @@ namespace PlayFab.MultiplayerModels
         /// detect any breaking changes before they are released to retail. Retail builds should set this value to false.
         /// </summary>
         public bool? IsOSPreview;
+        /// <summary>
+        /// The Linux instrumentation configuration for the Build. Used only if it is a Linux Build.
+        /// </summary>
+        public LinuxInstrumentationConfiguration LinuxInstrumentationConfiguration;
         /// <summary>
         /// Metadata to tag the build. The keys are case insensitive. The build metadata is made available to the server through
         /// Game Server SDK (GSDK).Constraints: Maximum number of keys: 30, Maximum key length: 50, Maximum value length: 100
@@ -999,12 +1029,6 @@ namespace PlayFab.MultiplayerModels
         /// relative to the root asset folder when unzipped.
         /// </summary>
         public string StartMultiplayerServerCommand;
-        /// <summary>
-        /// DEPRECATED - this is always true. Assets are downloaded and uncompressed in memory, without the compressedversion being
-        /// written first to disc.
-        /// </summary>
-        [Obsolete("Use '' instead", false)]
-        public bool? UseStreamingForAssetDownloads;
         /// <summary>
         /// The VM size to create the build on.
         /// </summary>
@@ -1048,6 +1072,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public List<GameCertificateReference> GameCertificateReferences;
         /// <summary>
+        /// The game secrets for the build.
+        /// </summary>
+        public List<GameSecretReference> GameSecretReferences;
+        /// <summary>
         /// The working directory for the game process. If this is not provided, the working directory will be set based on the
         /// mount path of the game server executable.
         /// </summary>
@@ -1061,6 +1089,10 @@ namespace PlayFab.MultiplayerModels
         /// detect any breaking changes before they are released to retail. Retail builds should set this value to false.
         /// </summary>
         public bool? IsOSPreview;
+        /// <summary>
+        /// The Linux instrumentation configuration for this build.
+        /// </summary>
+        public LinuxInstrumentationConfiguration LinuxInstrumentationConfiguration;
         /// <summary>
         /// The metadata of the build.
         /// </summary>
@@ -1128,7 +1160,7 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The private key-value pairs which are only visible to members of the lobby. At most 30 key-value pairs may be stored
+        /// The private key-value pairs which are visible to all entities in the lobby. At most 30 key-value pairs may be stored
         /// here, keys are limited to 30 characters and values to 1000. The total size of all lobbyData values may not exceed 4096
         /// bytes. Keys are case sensitive.
         /// </summary>
@@ -1611,6 +1643,22 @@ namespace PlayFab.MultiplayerModels
         public string VmId;
     }
 
+    /// <summary>
+    /// Deletes a multiplayer server game secret.
+    /// </summary>
+    [Serializable]
+    public class DeleteSecretRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The name of the secret.
+        /// </summary>
+        public string Name;
+    }
+
     [Serializable]
     public class DifferenceRule : PlayFabBaseModel
     {
@@ -1658,6 +1706,18 @@ namespace PlayFab.MultiplayerModels
         /// The relative weight of this rule compared to others.
         /// </summary>
         public double Weight;
+    }
+
+    public enum DirectPeerConnectivityOptions
+    {
+        None,
+        SamePlatformType,
+        DifferentPlatformType,
+        AnyPlatformType,
+        SameEntityLoginProvider,
+        DifferentEntityLoginProvider,
+        AnyEntityLoginProvider,
+        AnyPlatformTypeAndEntityLoginProvider
     }
 
     [Serializable]
@@ -1765,15 +1825,16 @@ namespace PlayFab.MultiplayerModels
         /// (less than). The left-hand side of each OData logical expression should be either a search property key (e.g.
         /// string_key1, number_key3, etc) or one of the pre-defined search keys all of which must be prefixed by "lobby/":
         /// lobby/memberCount (number of players in a lobby), lobby/maxMemberCount (maximum number of players allowed in a lobby),
-        /// lobby/membershipLock (must equal 'Unlocked' or 'Locked'), lobby/amOwner (required to equal "true"), lobby/amMember
-        /// (required to equal "true").
+        /// lobby/memberCountRemaining (remaining number of players who can be allowed in a lobby), lobby/membershipLock (must equal
+        /// 'Unlocked' or 'Locked'), lobby/amOwner (required to equal "true"), lobby/amMember (required to equal "true").
         /// </summary>
         public string Filter;
         /// <summary>
         /// OData style string that contains sorting for this query in either ascending ("asc") or descending ("desc") order.
-        /// OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "lobby/memberCount asc" and
-        /// "lobby/maxMemberCount desc". To sort by closest, a moniker `distance{number_key1 = 5}` can be used to sort by distance
-        /// from the given number. This field only supports either one sort clause or one distance clause.
+        /// OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "lobby/memberCount asc",
+        /// "lobby/memberCountRemaining desc" and "lobby/maxMemberCount desc". To sort by closest, a moniker `distance{number_key1 =
+        /// 5}` can be used to sort by distance from the given number. This field only supports either one sort clause or one
+        /// distance clause.
         /// </summary>
         public string OrderBy;
         /// <summary>
@@ -1815,15 +1876,16 @@ namespace PlayFab.MultiplayerModels
         /// (less than). The left-hand side of each OData logical expression should be either a search property key (e.g.
         /// string_key1, number_key3, etc) or one of the pre-defined search keys all of which must be prefixed by "lobby/":
         /// lobby/memberCount (number of players in a lobby), lobby/maxMemberCount (maximum number of players allowed in a lobby),
-        /// lobby/membershipLock (must equal 'Unlocked' or 'Locked'), lobby/amOwner (required to equal "true"), lobby/amMember
-        /// (required to equal "true").
+        /// lobby/memberCountRemaining (remaining number of players who can be allowed in a lobby), lobby/membershipLock (must equal
+        /// 'Unlocked' or 'Locked'), lobby/amOwner (required to equal "true"), lobby/amMember (required to equal "true").
         /// </summary>
         public string Filter;
         /// <summary>
         /// OData style string that contains sorting for this query in either ascending ("asc") or descending ("desc") order.
-        /// OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "lobby/memberCount asc" and
-        /// "lobby/maxMemberCount desc". To sort by closest, a moniker `distance{number_key1 = 5}` can be used to sort by distance
-        /// from the given number. This field only supports either one sort clause or one distance clause.
+        /// OrderBy clauses are of the form "number_key1 asc" or the pre-defined search key "lobby/memberCount asc",
+        /// "lobby/memberCountRemaining desc" and "lobby/maxMemberCount desc". To sort by closest, a moniker `distance{number_key1 =
+        /// 5}` can be used to sort by distance from the given number. This field only supports either one sort clause or one
+        /// distance clause.
         /// </summary>
         public string OrderBy;
         /// <summary>
@@ -1911,6 +1973,24 @@ namespace PlayFab.MultiplayerModels
         /// <summary>
         /// The name of the game certificate. This name should match the name of a certificate that was previously uploaded to this
         /// title.
+        /// </summary>
+        public string Name;
+    }
+
+    [Serializable]
+    public class GameSecretReference : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The name of the game secret. This name should match the name of a secret that was previously added to this title.
+        /// </summary>
+        public string Name;
+    }
+
+    [Serializable]
+    public class GameSecretReferenceParams : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The name of the game secret. This name should match the name of a secret that was previously added to this title.
         /// </summary>
         public string Name;
     }
@@ -2345,7 +2425,7 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public string FQDN;
         /// <summary>
-        /// The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        /// The public IPv4 address of the virtual machine that is hosting this multiplayer server.
         /// </summary>
         public string IPV4Address;
         /// <summary>
@@ -2356,6 +2436,10 @@ namespace PlayFab.MultiplayerModels
         /// The ports the multiplayer server uses.
         /// </summary>
         public List<Port> Ports;
+        /// <summary>
+        /// The list of public Ipv4 addresses associated with the server.
+        /// </summary>
+        public List<PublicIpAddress> PublicIPV4Addresses;
         /// <summary>
         /// The region the multiplayer server is located in.
         /// </summary>
@@ -2696,7 +2780,7 @@ namespace PlayFab.MultiplayerModels
         public uint MaxPlayers;
         /// <summary>
         /// The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
-        /// members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+        /// entities in the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
         /// 1000. The total size of all memberData values may not exceed 4096 bytes. Keys are case sensitive.
         /// </summary>
         public Dictionary<string,string> MemberData;
@@ -2724,6 +2808,45 @@ namespace PlayFab.MultiplayerModels
     }
 
     /// <summary>
+    /// Preview: Request to join a lobby as a server. Only callable by a game_server entity and this is restricted to client
+    /// owned lobbies which are using connections.
+    /// </summary>
+    [Serializable]
+    public class JoinLobbyAsServerRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// A field which indicates which lobby the game_server will be joining. This field is opaque to everyone except the Lobby
+        /// service.
+        /// </summary>
+        public string ConnectionString;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The private key-value pairs which are visible to all entities in the lobby but can only be modified by the joined
+        /// server.At most 30 key - value pairs may be stored here, keys are limited to 30 characters and values to 1000.The total
+        /// size of all serverData values may not exceed 4096 bytes.
+        /// </summary>
+        public Dictionary<string,string> ServerData;
+        /// <summary>
+        /// The game_server entity which is joining the Lobby. If a different game_server entity has already joined the request will
+        /// fail unless the joined entity is disconnected, in which case the incoming game_server entity will replace the
+        /// disconnected entity.
+        /// </summary>
+        public EntityKey ServerEntity;
+    }
+
+    [Serializable]
+    public class JoinLobbyAsServerResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// Successfully joined lobby's id.
+        /// </summary>
+        public string LobbyId;
+    }
+
+    /// <summary>
     /// Request to join a lobby. Only a client can join a lobby.
     /// </summary>
     [Serializable]
@@ -2739,7 +2862,7 @@ namespace PlayFab.MultiplayerModels
         public Dictionary<string,string> CustomTags;
         /// <summary>
         /// The private key-value pairs used by the member to communicate information to other members and the owner. Visible to all
-        /// members of the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
+        /// entities in the lobby. At most 30 key-value pairs may be stored here, keys are limited to 30 characters and values to
         /// 1000. The total size of all memberData values may not exceed 4096 bytes.Keys are case sensitive.
         /// </summary>
         public Dictionary<string,string> MemberData;
@@ -2788,6 +2911,28 @@ namespace PlayFab.MultiplayerModels
     [Serializable]
     public class JoinMatchmakingTicketResult : PlayFabResultCommon
     {
+    }
+
+    /// <summary>
+    /// Preview: Request for server to leave a lobby. Only a game_server entity can leave and this is restricted to client owned
+    /// lobbies which are using connections.
+    /// </summary>
+    [Serializable]
+    public class LeaveLobbyAsServerRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The id of the lobby.
+        /// </summary>
+        public string LobbyId;
+        /// <summary>
+        /// The game_server entity leaving the lobby. If the game_server was subscribed to notifications, it will be unsubscribed.
+        /// If a the given game_server entity is not in the lobby, it will fail.
+        /// </summary>
+        public EntityKey ServerEntity;
     }
 
     /// <summary>
@@ -3099,11 +3244,27 @@ namespace PlayFab.MultiplayerModels
         /// The container images we want to list tags for.
         /// </summary>
         public string ImageName;
+        /// <summary>
+        /// The page size for the request.
+        /// </summary>
+        public int? PageSize;
+        /// <summary>
+        /// The skip token for the paged request.
+        /// </summary>
+        public string SkipToken;
     }
 
     [Serializable]
     public class ListContainerImageTagsResponse : PlayFabResultCommon
     {
+        /// <summary>
+        /// The page size on the response.
+        /// </summary>
+        public int PageSize;
+        /// <summary>
+        /// The skip token for the paged response.
+        /// </summary>
+        public string SkipToken;
         /// <summary>
         /// The list of tags for a particular container image.
         /// </summary>
@@ -3250,6 +3411,10 @@ namespace PlayFab.MultiplayerModels
         /// deployed for the title.
         /// </summary>
         public bool? IncludeAllRegions;
+        /// <summary>
+        /// Indicates the Routing Preference used by the Qos servers. The default Routing Preference is Microsoft
+        /// </summary>
+        public string RoutingPreference;
     }
 
     [Serializable]
@@ -3263,6 +3428,43 @@ namespace PlayFab.MultiplayerModels
         /// The list of QoS servers.
         /// </summary>
         public List<QosServer> QosServers;
+        /// <summary>
+        /// The skip token for the paged response.
+        /// </summary>
+        public string SkipToken;
+    }
+
+    /// <summary>
+    /// Returns a list of multiplayer server game secrets for a title.
+    /// </summary>
+    [Serializable]
+    public class ListSecretSummariesRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The page size for the request.
+        /// </summary>
+        public int? PageSize;
+        /// <summary>
+        /// The skip token for the paged request.
+        /// </summary>
+        public string SkipToken;
+    }
+
+    [Serializable]
+    public class ListSecretSummariesResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The page size on the response.
+        /// </summary>
+        public int PageSize;
+        /// <summary>
+        /// The list of game secret.
+        /// </summary>
+        public List<SecretSummary> SecretSummaries;
         /// <summary>
         /// The skip token for the paged response.
         /// </summary>
@@ -3418,6 +3620,10 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public Dictionary<string,string> SearchData;
         /// <summary>
+        /// Preview: Lobby joined server. This is not the server owner, rather the server that has joined a client owned lobby.
+        /// </summary>
+        public LobbyServer Server;
+        /// <summary>
         /// A flag which determines if connections are used. Defaults to true. Only set on create.
         /// </summary>
         public bool UseConnections;
@@ -3426,6 +3632,23 @@ namespace PlayFab.MultiplayerModels
     [Serializable]
     public class LobbyEmptyResult : PlayFabResultCommon
     {
+    }
+
+    [Serializable]
+    public class LobbyServer : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Opaque string, stored on a Subscribe call, which indicates the connection a joined server has with PubSub.
+        /// </summary>
+        public string PubSubConnectionHandle;
+        /// <summary>
+        /// Key-value pairs specific to the joined server.
+        /// </summary>
+        public Dictionary<string,string> ServerData;
+        /// <summary>
+        /// The server entity key.
+        /// </summary>
+        public EntityKey ServerEntity;
     }
 
     [Serializable]
@@ -3813,6 +4036,65 @@ namespace PlayFab.MultiplayerModels
     }
 
     [Serializable]
+    public class PartyInvitationConfiguration : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The list of PlayFab EntityKeys that the invitation allows to authenticate into the network. If this list is empty, all
+        /// users are allowed to authenticate using the invitation's identifier. This list may contain no more than 1024 items.
+        /// </summary>
+        public List<EntityKey> EntityKeys;
+        /// <summary>
+        /// The invite identifier for this party. If this value is specified, it must be no longer than 127 characters.
+        /// </summary>
+        public string Identifier;
+        /// <summary>
+        /// Controls which participants can revoke this invite.
+        /// </summary>
+        public string Revocability;
+    }
+
+    public enum PartyInvitationRevocability
+    {
+        Creator,
+        Anyone
+    }
+
+    [Serializable]
+    public class PartyNetworkConfiguration : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Controls whether and how to support direct peer-to-peer connection attempts among devices in the network.
+        /// </summary>
+        public string DirectPeerConnectivityOptions;
+        /// <summary>
+        /// The maximum number of devices allowed to connect to the network. Must be between 1 and 32, inclusive.
+        /// </summary>
+        public uint MaxDevices;
+        /// <summary>
+        /// The maximum number of devices allowed per user. Must be greater than 0.
+        /// </summary>
+        public uint MaxDevicesPerUser;
+        /// <summary>
+        /// The maximum number of endpoints allowed per device. Must be between 0 and 32, inclusive.
+        /// </summary>
+        public uint MaxEndpointsPerDevice;
+        /// <summary>
+        /// The maximum number of unique users allowed in the network. Must be greater than 0.
+        /// </summary>
+        public uint MaxUsers;
+        /// <summary>
+        /// The maximum number of users allowed per device. Must be between 1 and 8, inclusive.
+        /// </summary>
+        public uint MaxUsersPerDevice;
+        /// <summary>
+        /// An optionally-specified configuration for the initial invitation for this party. If not provided, default configuration
+        /// values will be used: a title-unique invitation identifier will be generated, the revocability will be Anyone, and the
+        /// EntityID list will be empty.
+        /// </summary>
+        public PartyInvitationConfiguration PartyInvitationConfiguration;
+    }
+
+    [Serializable]
     public class Port : PlayFabBaseModel
     {
         /// <summary>
@@ -3833,6 +4115,23 @@ namespace PlayFab.MultiplayerModels
     {
         TCP,
         UDP
+    }
+
+    [Serializable]
+    public class PublicIpAddress : PlayFabBaseModel
+    {
+        /// <summary>
+        /// FQDN of the public IP
+        /// </summary>
+        public string FQDN;
+        /// <summary>
+        /// Server IP Address
+        /// </summary>
+        public string IpAddress;
+        /// <summary>
+        /// Routing Type of the public IP.
+        /// </summary>
+        public string RoutingType;
     }
 
     [Serializable]
@@ -4031,7 +4330,7 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public string FQDN;
         /// <summary>
-        /// The IPv4 address of the virtual machine that is hosting this multiplayer server.
+        /// The public IPv4 address of the virtual machine that is hosting this multiplayer server.
         /// </summary>
         public string IPV4Address;
         /// <summary>
@@ -4042,6 +4341,10 @@ namespace PlayFab.MultiplayerModels
         /// The ports the multiplayer server uses.
         /// </summary>
         public List<Port> Ports;
+        /// <summary>
+        /// The list of public Ipv4 addresses associated with the server.
+        /// </summary>
+        public List<PublicIpAddress> PublicIPV4Addresses;
         /// <summary>
         /// The region the multiplayer server is located in.
         /// </summary>
@@ -4062,6 +4365,50 @@ namespace PlayFab.MultiplayerModels
         /// The virtual machine ID that the multiplayer server is located on.
         /// </summary>
         public string VmId;
+    }
+
+    /// <summary>
+    /// Requests a party session from a particular set of builds if build alias params is provided, in any of the given
+    /// preferred regions.
+    /// </summary>
+    [Serializable]
+    public class RequestPartyServiceRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The network configuration for this request.
+        /// </summary>
+        public PartyNetworkConfiguration NetworkConfiguration;
+        /// <summary>
+        /// A guid string party ID created track the party session over its life.
+        /// </summary>
+        public string PartyId;
+        /// <summary>
+        /// The preferred regions to request a party session from. The party service will iterate through the regions in the
+        /// specified order and allocate a party session from the first one that is available.
+        /// </summary>
+        public List<string> PreferredRegions;
+    }
+
+    [Serializable]
+    public class RequestPartyServiceResponse : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The invitation identifier supplied in the PartyInvitationConfiguration, or the PlayFab-generated guid if none was
+        /// supplied.
+        /// </summary>
+        public string InvitationId;
+        /// <summary>
+        /// The guid string party ID of the party session.
+        /// </summary>
+        public string PartyId;
+        /// <summary>
+        /// A base-64 encoded string containing the serialized network descriptor for this party.
+        /// </summary>
+        public string SerializedNetworkDescriptor;
     }
 
     /// <summary>
@@ -4092,6 +4439,12 @@ namespace PlayFab.MultiplayerModels
         /// The username for accessing the container registry.
         /// </summary>
         public string Username;
+    }
+
+    public enum RoutingType
+    {
+        Microsoft,
+        Internet
     }
 
     [Serializable]
@@ -4135,6 +4488,40 @@ namespace PlayFab.MultiplayerModels
         /// A list of non-overlapping schedules
         /// </summary>
         public List<Schedule> ScheduleList;
+    }
+
+    [Serializable]
+    public class Secret : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Optional secret expiration date.
+        /// </summary>
+        public DateTime? ExpirationDate;
+        /// <summary>
+        /// A name for the secret. This is used to reference secrets in build configurations.
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// Secret value.
+        /// </summary>
+        public string Value;
+    }
+
+    [Serializable]
+    public class SecretSummary : PlayFabBaseModel
+    {
+        /// <summary>
+        /// Optional secret expiration date.
+        /// </summary>
+        public DateTime? ExpirationDate;
+        /// <summary>
+        /// The name of the secret.
+        /// </summary>
+        public string Name;
+        /// <summary>
+        /// The secret version auto-generated after upload.
+        /// </summary>
+        public string Version;
     }
 
     [Serializable]
@@ -4710,6 +5097,42 @@ namespace PlayFab.MultiplayerModels
     }
 
     /// <summary>
+    /// Preview: Request to update the serverData and serverEntity in case of migration. Only a game_server entity can update
+    /// this information and this is restricted to client owned lobbies which are using connections.
+    /// </summary>
+    [Serializable]
+    public class UpdateLobbyAsServerRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The id of the lobby.
+        /// </summary>
+        public string LobbyId;
+        /// <summary>
+        /// The private key-value pairs which are visible to all entities in the lobby and modifiable by the joined server.
+        /// Optional. Sets or updates key-value pairs on the lobby. Only the current lobby lobby server can set serverData. Keys may
+        /// be an arbitrary string of at most 30 characters. The total size of all serverData values may not exceed 4096 bytes.
+        /// Values are not individually limited. There can be up to 30 key-value pairs stored here. Keys are case sensitive.
+        /// </summary>
+        public Dictionary<string,string> ServerData;
+        /// <summary>
+        /// The keys to delete from the lobby serverData. Optional. Optional. Deletes key-value pairs on the lobby. Only the current
+        /// joined lobby server can delete serverData. All the specified keys will be removed from the serverData. Keys that do not
+        /// exist in the lobby are a no-op. If the key to delete exists in the serverData (same request) it will result in a bad
+        /// request.
+        /// </summary>
+        public List<string> ServerDataToDelete;
+        /// <summary>
+        /// The lobby server. Optional. Set a different server as the joined server of the lobby (there can only be 1 joined
+        /// server). When changing the server the previous server will automatically be unsubscribed.
+        /// </summary>
+        public EntityKey ServerEntity;
+    }
+
+    /// <summary>
     /// Request to update a lobby.
     /// </summary>
     [Serializable]
@@ -4728,7 +5151,7 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
-        /// The private key-value pairs which are only visible to members of the lobby. Optional. Sets or updates key-value pairs on
+        /// The private key-value pairs which are visible to all entities in the lobby. Optional. Sets or updates key-value pairs on
         /// the lobby. Only the current lobby owner can set lobby data. Keys may be an arbitrary string of at most 30 characters.
         /// The total size of all lobbyData values may not exceed 4096 bytes. Values are not individually limited. There can be up
         /// to 30 key-value pairs stored here. Keys are case sensitive.
@@ -4751,9 +5174,9 @@ namespace PlayFab.MultiplayerModels
         /// <summary>
         /// The private key-value pairs used by the member to communicate information to other members and the owner. Optional. Sets
         /// or updates new key-value pairs on the caller's member data. New keys will be added with their values and existing keys
-        /// will be updated with the new values. Visible to all members of the lobby. At most 30 key-value pairs may be stored here,
-        /// keys are limited to 30 characters and values to 1000. The total size of all memberData values may not exceed 4096 bytes.
-        /// Keys are case sensitive. Servers cannot specifiy this.
+        /// will be updated with the new values. Visible to all entities in the lobby. At most 30 key-value pairs may be stored
+        /// here, keys are limited to 30 characters and values to 1000. The total size of all memberData values may not exceed 4096
+        /// bytes. Keys are case sensitive. Servers cannot specifiy this.
         /// </summary>
         public Dictionary<string,string> MemberData;
         /// <summary>
@@ -4811,9 +5234,33 @@ namespace PlayFab.MultiplayerModels
         /// </summary>
         public Dictionary<string,string> CustomTags;
         /// <summary>
+        /// Forces the certificate renewal if the certificate already exists. Default is false
+        /// </summary>
+        public bool? ForceUpdate;
+        /// <summary>
         /// The game certificate to upload.
         /// </summary>
         public Certificate GameCertificate;
+    }
+
+    /// <summary>
+    /// Uploads a multiplayer server game secret.
+    /// </summary>
+    [Serializable]
+    public class UploadSecretRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// Forces the secret renewal if the secret already exists. Default is false
+        /// </summary>
+        public bool? ForceUpdate;
+        /// <summary>
+        /// The game secret to add.
+        /// </summary>
+        public Secret GameSecret;
     }
 
     [Serializable]

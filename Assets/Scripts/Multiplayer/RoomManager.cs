@@ -31,6 +31,8 @@ public class RoomManager : MonoBehaviourPunCallbacks
     //List of players
     public GameObject[] Mplayers;
 
+    public GameObject MyPlayer;
+
     //Instance = this;
     public void Awake() 
     {
@@ -75,7 +77,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
     public void Update() // get plavers
     {
-        Mplayers = GameObject.FindGameObjectsWithTag("MPlayer");
+        MyPlayer = GameObject.FindGameObjectWithTag("MPlayer");
         
     }
 
@@ -87,7 +89,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         //instantiate all steps Only By master client
         InstantiateSteps();
 
-        PhotonNetwork.Instantiate(PM.name, Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(PM.name, Vector3.zero, Quaternion.identity).name = "LocalPM";
     }
 
     public void InstantiateSteps()
@@ -119,24 +121,31 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         gameEnded = true;
 
-        PhotonNetwork.AutomaticallySyncScene = false;
+        //PhotonNetwork.AutomaticallySyncScene = true;
 
         //Gets Winner Details
         winner = winnerGameObject.GetComponent<PlayerController>().PV.Owner.NickName;
 
+        PlayerController PC = MyPlayer.GetComponent<PlayerController>();
+        PC.winnerName.text = winner;
+        //Mplayer.transform.Find("CanvasFinish").transform.Find("LevelComplete").gameObject.SetActive(true);
+        PC.mainCanvas.transform.Find("LevelComplete").gameObject.SetActive(true);
+        PC.enabled = false;
 
-        foreach (GameObject Mplayer in Mplayers)
+        if (PhotonNetwork.IsMasterClient)
         {
-            
-            PlayerController PC = Mplayer.GetComponent<PlayerController>();
-            //PC.rb.velocity = Vector3.zero;
-            PC.winnerName.text = winner;
-            //Mplayer.transform.Find("CanvasFinish").transform.Find("LevelComplete").gameObject.SetActive(true);
-            PC.mainCanvas.transform.Find("LevelComplete").gameObject.SetActive(true);
-            PC.enabled = false;
-
+            Invoke(nameof(BackToRoom), 10);
         }
+
         
+    }
+
+    public void BackToRoom()
+    {
+        if( gameEnded )
+        {
+            PhotonNetwork.LoadLevel(1);
+        }
     }
 
 }

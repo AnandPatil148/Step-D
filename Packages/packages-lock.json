@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "com.unity.collab-proxy": {
-      "version": "1.17.7",
+    "com.solana.unity_sdk": {
+      "version": "https://github.com/magicblock-labs/Solana.Unity-SDK.git",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {
-        "com.unity.services.core": "1.0.1"
+        "com.unity.nuget.newtonsoft-json": "3.0.2",
+        "com.unity.textmeshpro": "3.0.6"
       },
-      "url": "https://packages.unity.com"
+      "hash": "fe5466e3964706cf2c458203304afbb05f032595"
     },
     "com.unity.editorcoroutines": {
       "version": "1.0.0",
@@ -38,7 +39,7 @@
       }
     },
     "com.unity.ide.rider": {
-      "version": "3.0.16",
+      "version": "3.0.28",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -47,7 +48,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.16",
+      "version": "2.0.22",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -77,60 +78,13 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.probuilder": {
-      "version": "5.0.6",
+      "version": "5.0.7",
       "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.settings-manager": "1.0.3",
         "com.unity.modules.physics": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.remote-config": {
-      "version": "3.2.2",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.remote-config-runtime": "3.1.3"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.remote-config-runtime": {
-      "version": "3.1.3",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.unityanalytics": "1.0.0",
-        "com.unity.services.core": "1.4.0",
-        "com.unity.services.authentication": "2.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.services.authentication": {
-      "version": "2.3.1",
-      "depth": 2,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "com.unity.services.core": "1.4.3",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.services.core": {
-      "version": "1.6.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.nuget.newtonsoft-json": "3.0.2",
-        "com.unity.modules.androidjni": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -143,7 +97,7 @@
     },
     "com.unity.test-framework": {
       "version": "1.1.31",
-      "depth": 0,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ext.nunit": "1.0.6",
@@ -163,7 +117,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
+      "version": "3.0.9",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -172,7 +126,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.6.4",
+      "version": "1.6.5",
       "depth": 0,
       "source": "registry",
       "dependencies": {

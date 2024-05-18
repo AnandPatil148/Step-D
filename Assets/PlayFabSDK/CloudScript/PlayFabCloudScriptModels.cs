@@ -54,7 +54,8 @@ namespace PlayFab.CloudScriptModels
         EU,
         NA,
         OC,
-        SA
+        SA,
+        Unknown
     }
 
     public enum CountryCode
@@ -307,7 +308,8 @@ namespace PlayFab.CloudScriptModels
         EH,
         YE,
         ZM,
-        ZW
+        ZW,
+        Unknown
     }
 
     public enum EmailVerificationStatus
@@ -336,6 +338,23 @@ namespace PlayFab.CloudScriptModels
         /// Entity type. See https://docs.microsoft.com/gaming/playfab/features/data/entities/available-built-in-entity-types
         /// </summary>
         public string Type;
+    }
+
+    [Serializable]
+    public class EventHubFunctionModel : PlayFabBaseModel
+    {
+        /// <summary>
+        /// The connection string for the event hub.
+        /// </summary>
+        public string ConnectionString;
+        /// <summary>
+        /// The name of the event hub that triggers the Azure Function.
+        /// </summary>
+        public string EventHubName;
+        /// <summary>
+        /// The name the function was registered under.
+        /// </summary>
+        public string FunctionName;
     }
 
     [Serializable]
@@ -583,6 +602,15 @@ namespace PlayFab.CloudScriptModels
         /// Linked account username of the user on the platform, if available
         /// </summary>
         public string Username;
+    }
+
+    [Serializable]
+    public class ListEventHubFunctionsResult : PlayFabResultCommon
+    {
+        /// <summary>
+        /// The list of EventHub triggered functions that are currently registered for the title.
+        /// </summary>
+        public List<EventHubFunctionModel> Functions;
     }
 
     /// <summary>
@@ -958,6 +986,31 @@ namespace PlayFab.CloudScriptModels
         public string QueueName;
     }
 
+    /// <summary>
+    /// A title can have many functions, RegisterEventHubFunction associates a function name with an event hub name and
+    /// connection string.
+    /// </summary>
+    [Serializable]
+    public class RegisterEventHubFunctionRequest : PlayFabRequestCommon
+    {
+        /// <summary>
+        /// A connection string for the namespace of the event hub for the Azure Function.
+        /// </summary>
+        public string ConnectionString;
+        /// <summary>
+        /// The optional custom tags associated with the request (e.g. build number, external trace identifiers, etc.).
+        /// </summary>
+        public Dictionary<string,string> CustomTags;
+        /// <summary>
+        /// The name of the event hub for the Azure Function.
+        /// </summary>
+        public string EventHubName;
+        /// <summary>
+        /// The name of the function to register
+        /// </summary>
+        public string FunctionName;
+    }
+
     [Serializable]
     public class RegisterHttpFunctionRequest : PlayFabRequestCommon
     {
@@ -1092,7 +1145,8 @@ namespace PlayFab.CloudScriptModels
     public enum TriggerType
     {
         HTTP,
-        Queue
+        Queue,
+        EventHub
     }
 
     [Serializable]

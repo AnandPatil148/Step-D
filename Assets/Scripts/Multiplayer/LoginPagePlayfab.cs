@@ -14,7 +14,7 @@ public class LoginPagePlayfab : MonoBehaviour
     public static LoginPagePlayfab Instance;
     
     [SerializeField] Menu titleMenu;
-    [SerializeField] TMP_Text MessageText;
+    [SerializeField] TMP_Text SystemText;
 
     [Header("Login")]
     [SerializeField] TMP_InputField EmailLoginInput;
@@ -66,7 +66,7 @@ public class LoginPagePlayfab : MonoBehaviour
 
     public void Login()
     {
-        MessageText.text = "Loggin in...";
+        SystemText.text = "Loggin in...";
         var request = new LoginWithEmailAddressRequest
         {
             Email = EmailLoginInput.text,
@@ -88,7 +88,7 @@ public class LoginPagePlayfab : MonoBehaviour
             PFP = result.InfoResultPayload.PlayerProfile.AvatarUrl;
         }
         MenuManager.Instance.OpenMenu(titleMenu);
-        MessageText.text = " ";
+        SystemText.text = " ";
         Launcher.Instance.SetPlayerDetails(Name);
     }
 
@@ -110,7 +110,7 @@ public class LoginPagePlayfab : MonoBehaviour
 
     private void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        MessageText.text = "New Account Is Successfully Created";
+        SystemText.text = "New Account Is Successfully Created";
         OpenLogin();
     }
 
@@ -127,12 +127,12 @@ public class LoginPagePlayfab : MonoBehaviour
     private void OnRecoverySuccess(SendAccountRecoveryEmailResult result)
     {
         OpenLogin();
-        MessageText.text = "Recovery Mail Sent To Registered Mail";
+        SystemText.text = "Recovery Mail Sent To Registered Mail";
     }
 
     private void OnError(PlayFabError error)//Error msg
     {
-        MessageText.text = error.ErrorMessage;
+        SystemText.text = error.ErrorMessage;
         //Debug.Log(error.GenerateErrorReport());
     }
     public void OpenLogin()

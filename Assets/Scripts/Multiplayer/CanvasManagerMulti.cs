@@ -38,6 +38,8 @@ public class CanvasManagerMulti : MonoBehaviour
     private void Update()
     {
         MPlayerScore(); 
+        TabPanel();
+        EscPanel();
 
     }
     
@@ -70,6 +72,22 @@ public class CanvasManagerMulti : MonoBehaviour
         
         speed = PC.forwardForce;
         speedText.text = speed.ToString();
+    }
+
+    public void TabPanel()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Tab)) tabPanel.SetActive(true);
+        if (Input.GetKeyUp(KeyCode.Tab)) tabPanel.SetActive(false);
+
+        playerCount.text = PhotonNetwork.PlayerList.Length.ToString();
+    }
+
+    public void EscPanel()
+    {
+        if( Input.GetKeyDown(KeyCode.Escape)) escPanel.SetActive(true);
+        if( Input.GetKeyUp(KeyCode.Escape)) escPanel.SetActive(false);
+
     }
 
 }
