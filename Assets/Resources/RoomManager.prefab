@@ -44,12 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f02c4186488bd469dba0dcbd2254a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayfabManager: {fileID: 0}
+  LevelComplete: {fileID: 0}
+  Chunk: {fileID: 7766683436946008695, guid: 81bb298de4d61664788b9e737b43cc1f, type: 3}
+  ENDChunk: {fileID: 2001309950589495818, guid: eadbb4807d3290d46983643472a2c61c, type: 3}
   step: {fileID: 3325099330221280635, guid: f10bdb5fa6d28044d8f922d2aa66812a, type: 3}
   DMerit: {fileID: 617764613000339720, guid: d79c48b9b609a7e4891bc3882b74cc89, type: 3}
-  PM: {fileID: 1843135739230670641, guid: 511a9495e129d104ebe3f12b156f5c8e, type: 3}
-  winner: 
+  PMPrefab: {fileID: 1843135739230670641, guid: 511a9495e129d104ebe3f12b156f5c8e, type: 3}
+  PM: {fileID: 0}
+  PC: {fileID: 0}
+  StepsRemaining: []
+  DMeritsRemaining: []
+  winnerName: 
+  NumberOfChunks: 10
   gameEnded: 0
   luckA: 1
   luckB: 1
   luck: 1
-  Mplayers: []

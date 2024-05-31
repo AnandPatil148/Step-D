@@ -20,7 +20,7 @@ public class PlayerTabListItem : MonoBehaviourPunCallbacks
         {
             playerNameText.text = _player.NickName;
             playerScoreText.text = PC.transform.position.z.ToString("0");
-            playerStepsText.text = PC.stepCount.ToString();
+            playerStepsText.text = PC.StepsCount.ToString();
         }
     }
 

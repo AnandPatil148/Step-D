@@ -15,15 +15,12 @@ public class CanvasManagerMulti : MonoBehaviour
     public float speed;
 
     [Header("Main Score Panel")]
+    public GameObject MainPanel;
     public TMP_Text scoreText;
     public TMP_Text stepScoreText;
     public TMP_Text speedText;
     public TMP_Text DMeritsText;    
     
-    [Header("Final Score Panel")]
-    public TMP_Text finalScoreText;
-    public TMP_Text finalStepScoreText;
-
     [Header("Esc Panel")]
     public GameObject escPanel;
     public TMP_Text roomName;
@@ -59,15 +56,13 @@ public class CanvasManagerMulti : MonoBehaviour
         
         score = PC.transform.position.z;
         scoreText.text = score.ToString("0");
-        finalScoreText.text = scoreText.text;
         escScoreText.text = scoreText.text;
 
-        dmerits = PC.DMerits;
+        dmerits = PC.DMeritsCount;
         DMeritsText.text = dmerits.ToString();
         
-        steps = PC.stepCount;
+        steps = PC.StepsCount;
         stepScoreText.text = steps.ToString();
-        finalStepScoreText.text = stepScoreText.text;
         escStepScoreText.text = stepScoreText.text;
         
         speed = PC.forwardForce;
@@ -85,8 +80,20 @@ public class CanvasManagerMulti : MonoBehaviour
 
     public void EscPanel()
     {
-        if( Input.GetKeyDown(KeyCode.Escape)) escPanel.SetActive(true);
-        if( Input.GetKeyUp(KeyCode.Escape)) escPanel.SetActive(false);
+        bool open = false;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (open == false)
+            {
+                open = true;
+                escPanel.SetActive(true);
+            }
+            else if (open == true)
+            {
+                open = false;
+                escPanel.SetActive(false);
+            }
+        }
 
     }
 

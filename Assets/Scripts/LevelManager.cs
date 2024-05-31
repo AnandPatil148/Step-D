@@ -16,11 +16,6 @@ public class LevelManager : MonoBehaviour
     {
         SceneManager.LoadScene("MultiplayerMenu");
     }
-    
-    public void LoadMP7()
-    {
-        PhotonNetwork.LoadLevel(7);
-    }
 
     public void LoadNextLevel()
     {

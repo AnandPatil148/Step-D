@@ -12,12 +12,12 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public RoomManager roomManager;
     public Rigidbody rb;
     public PhotonView PV;
+    public GameObject PM;
     public GameObject playerCam;
     //reference to Effects
     public Effects effects;
 
     //Canvas stuff
-    public TMP_Text winnerName;
     public GameObject mainCanvas;
     public CanvasManagerMulti canvasManager;
 
@@ -42,10 +42,10 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [Header("Steps")]
     //step stuff(temp)
-    public int stepCount;
+    public int StepsCount;
 
     [Header("DMerits")]
-    public int DMerits;
+    public int DMeritsCount;
 
     //obstacle hit
     public bool obstacleHit;
@@ -54,6 +54,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     public Vector3 frontView;
     public Vector3 clampRotation;
 
+    public Vector3 SpawnPoint;
+
+    public bool completeLvlCalled = false;
 
     private void Start() 
     {
@@ -67,9 +70,14 @@ public class PlayerController : MonoBehaviourPunCallbacks
             mainCanvas.SetActive(false);
             //Destroy(rb);
         }
-
-        roomManager = GameObject.FindGameObjectWithTag("RoomManager").GetComponent<RoomManager>();
-        canvasManager.roomName.text = PhotonNetwork.CurrentRoom.Name;
+        else
+        {
+            canvasManager.roomName.text = PhotonNetwork.CurrentRoom.Name;
+            PM = GameObject.Find("LocalPM");
+            SpawnPoint = transform.position;
+        }
+        
+        roomManager = RoomManager.Instance;
     }
 
     private void Update() 
@@ -147,9 +155,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     //Effects Check
     private void EffectsCheck()
     {
-        if(qInput && DMerits != 0)
+        if(qInput && DMeritsCount != 0)
         {
-            DMerits--;
+            DMeritsCount--;
             forwardForce = 8000f;
             effects.OSD.IsActive = false;
         }
@@ -159,7 +167,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
     private void Restart()
     {
 
-        transform.position = new Vector3(0,1,0);
+        transform.position = SpawnPoint;
         transform.eulerAngles = Vector3.zero;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
@@ -167,7 +175,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
         effects.OSD.IsActive = true;
 
         forwardForce = effects.OSD.EffectFunction();
-        sidewaysForce = 90f;
+        sidewaysForce = 60f;
         jumpForce = 10f;
 
         obstacleHit = false;
@@ -175,35 +183,17 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     public void IncreaseSteps()
     {
-        stepCount += 1;
+        StepsCount += 1;
     }
 
-
-    public void BackToRoom()
+    //Needs more dev
+    public void LeaveRoomInGame()
     {
-        PhotonNetwork.AutomaticallySyncScene = roomManager.gameEnded;
         PhotonNetwork.Destroy(PV);
-        PhotonNetwork.Destroy(transform.parent.GetComponent<PhotonView>());
-
-        if(PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = true;
-            PhotonNetwork.CurrentRoom.IsVisible = true;
-        }
-
-        SceneManager.LoadScene("MultiplayerMenu");
-    }
-
-    public void Exit()
-    {
+        PhotonNetwork.Destroy(PM.GetPhotonView());
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("MultiplayerMenu");
-        Launcher.Instance.SetPlayerDetails(PV.name);
-
-        Destroy(roomManager.gameObject);
-        Destroy(transform.parent);
     }
-
 
 [PunRPC]
     public void DestroyStep(int viewID)
@@ -234,9 +224,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
         }
     }
 
+[PunRPC]
+    public void RPCLvlComplete(string winnerName)
+    {
+        roomManager.CompleteLevel(winnerName);
+    }
+
+    public void DestroyPC()
+    {
+        PhotonNetwork.Destroy(PV);
+    }
+
     //checks for triggers
     private void OnTriggerEnter(Collider other)
     {
+            
+        
         if(other.CompareTag("Step"))
         {
             IncreaseSteps();
@@ -246,15 +249,20 @@ public class PlayerController : MonoBehaviourPunCallbacks
         
         else if(other.CompareTag("DMerit"))
         {
-            DMerits++;
+            DMeritsCount++;
             PV.RPC(nameof(DestroyDMerit), RpcTarget.MasterClient, other.GetComponent<PhotonView>().ViewID);
 
         }
 
-        else if(other.gameObject.name == "END" && roomManager.gameEnded == false)
+        else if(other.gameObject.name == "END")
         {
-            rb.velocity = Vector3.zero;
-            roomManager.CompleteLevel(gameObject);
+            if(PV.IsMine && !completeLvlCalled)
+            {
+                completeLvlCalled = true;
+                PV.RPC(nameof(RPCLvlComplete), RpcTarget.All, PV.Owner.NickName);
+                //Invoke(nameof(DestroyPC), 2);
+            }
+
         }
 
         else

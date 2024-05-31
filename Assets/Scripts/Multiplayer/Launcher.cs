@@ -29,7 +29,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Header("Login Stuff")]
     [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text playerProfileName;
-    [SerializeField] LoginPagePlayfab loginPage;
+    [SerializeField] TMP_Text playerStepsCount;
+    [SerializeField] TMP_Text playerDMeritsCount;
 
 
 
@@ -65,7 +66,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     //Open Login Menu after Joinin Lobby
     public override void OnJoinedLobby()
     {
-        if(LoginPagePlayfab.Instance.logedin)
+        if(PlayfabManager.Instance.logedin)
         {
 		    MenuManager.Instance.OpenMenu("title");
         }
@@ -76,10 +77,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
 
     //Get Player name
-    public void SetPlayerDetails(string playerName)
+    public void SetPlayerDetails(string playerName, int Steps, int DMerits)
     {
         PhotonNetwork.NickName = playerName;
         playerProfileName.text = playerName;
+        playerStepsCount.text = Steps.ToString();
+        playerDMeritsCount.text = DMerits.ToString();
     }
 
     //Create Room
@@ -170,7 +173,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     //After leaving room
     public override void OnLeftRoom()
 	{
-        Destroy(GameObject.FindGameObjectWithTag("RoomManager"));
+        Destroy(RoomManager.Instance.gameObject);
 		MenuManager.Instance.OpenMenu("title");
 	}
 #endregion
@@ -195,7 +198,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 	public void DisconnectFromMasterAndLogOut()
 	{
 	    PhotonNetwork.Disconnect();
-        LoginPagePlayfab.Instance.Logout();        
+        PlayfabManager.Instance.Logout();        
         SceneManager.LoadScene("MainMenu");
 	}
 

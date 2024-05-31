@@ -18,7 +18,7 @@ MonoBehaviour:
   SelectedStudio: GamesForNubs
   SdkPath: Assets/PlayFabSDK
   EdExPath: 
-  LocalCloudScriptPath: 
+  LocalCloudScriptPath: C:/Users/Anand Patil/OneDrive/Desktop/GameForNubs/Assets/PlayFabEditorExtensions/Editor/Resources/.CloudScript.js
   PanelIsShown: 0
   curMainMenuIdx: 1
   curSubMenuIdx: 2

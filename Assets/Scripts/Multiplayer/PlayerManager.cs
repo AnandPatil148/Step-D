@@ -7,12 +7,7 @@ using System.IO;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    
-    ///<summary>
-    ///Player Controller Object Prefab
-    ///</summary>
     public GameObject PC;
-
 
     public GameObject playerTabListItem;
     public GameObject playerTabListContent;
@@ -24,9 +19,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Awake() 
     {
-        roomManager = GameObject.FindGameObjectWithTag("RoomManager").GetComponent<RoomManager>();
+        roomManager = RoomManager.Instance;
     }
-
 
     // Start is called before the first frame update
     void Start()
@@ -34,23 +28,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if(photonView.IsMine)
         {
             spawnPoint = new Vector3(Random.Range(-5,5), 1, Random.Range(1,3));
-            //transform.position = spawnPoint;
 
             CreateController();
 
             //Invoke(nameof(TabListCreate),2f);
-
         }
     }
-
 
     void CreateController()
     { 
         PC = PhotonNetwork.Instantiate(PC.name, spawnPoint, Quaternion.identity);
         PC.name = "LocalPC";
-        //PC.transform.SetParent(transform); 
+        roomManager.PC = PC;
     }
 
+    /*
     void TabListCreate()
     {
         playerTabListContent = PC.GetComponent<PlayerController>().mainCanvas.transform.Find("Tab").transform.Find("PlayerTabListContent").gameObject;
@@ -67,6 +59,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             Instantiate(playerTabListItem, playerTabListContent.transform).GetComponent<PlayerTabListItem>().SetUp(players[i], roomManager.Mplayers[i].GetComponent<PlayerController>());
         }
     }
-
+    */
     
 }

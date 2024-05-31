@@ -882,7 +882,7 @@ MonoBehaviour:
   forwardForce: 8000
   sidewaysForce: 90
   jumpForce: 10
-  isGrounded: 0
+  isGrounded: 1
   step: 0
   DMerits: 0
   obstacleHit: 0
@@ -902,7 +902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a747bb8394f26340b94eee0c04a689c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PM: {fileID: 3312739631976480891}
   OSD: {fileID: 5590431326540506704}
 --- !u!114 &5590431326540506704
 MonoBehaviour:
@@ -918,7 +917,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EffectName: 
   IsActive: 0
-  PM: {fileID: 0}
   ObstaclesHit: 0
 --- !u!54 &7699254015488224343
 Rigidbody:
@@ -2443,7 +2441,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6384551018491330106}
   m_LocalRotation: {x: 0.043619405, y: 0, z: 0, w: 0.9990483}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.68, z: -2.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

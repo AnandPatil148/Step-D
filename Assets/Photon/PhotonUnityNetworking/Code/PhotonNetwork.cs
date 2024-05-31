@@ -64,7 +64,7 @@ namespace Photon.Pun
     public static partial class PhotonNetwork
     {
         /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
-        public const string PunVersion = "2.41";
+        public const string PunVersion = "2.45";
 
         /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
         /// <remarks>
@@ -1372,7 +1372,7 @@ namespace Photon.Pun
 
             if (NetworkingClient == null)
             {
-                return; // Surpress error when quitting playmode in the editor
+                return; // Suppress error when quitting playmode in the editor
             }
 
             NetworkingClient.Disconnect();
@@ -1617,7 +1617,7 @@ namespace Photon.Pun
         /// <param name="expectedCustomRoomProperties">Filters for rooms that match these custom properties (string keys and values). To ignore, pass null.</param>
         /// <param name="expectedMaxPlayers">Filters for a particular maxplayer setting. Use 0 to accept any maxPlayer value.</param>
         /// <returns>If the operation got queued and will be sent.</returns>
-        public static bool JoinRandomRoom(Hashtable expectedCustomRoomProperties, byte expectedMaxPlayers)
+        public static bool JoinRandomRoom(Hashtable expectedCustomRoomProperties, int expectedMaxPlayers)
         {
             return JoinRandomRoom(expectedCustomRoomProperties, expectedMaxPlayers, MatchmakingMode.FillRoom, null, null);
         }
@@ -1646,7 +1646,7 @@ namespace Photon.Pun
         /// <param name="sqlLobbyFilter">A filter-string for SQL-typed lobbies.</param>
         /// <param name="expectedUsers">Optional list of users (by UserId) who are expected to join this game and who you want to block a slot for.</param>
         /// <returns>If the operation got queued and will be sent.</returns>
-        public static bool JoinRandomRoom(Hashtable expectedCustomRoomProperties, byte expectedMaxPlayers, MatchmakingMode matchingType, TypedLobby typedLobby, string sqlLobbyFilter, string[] expectedUsers = null)
+        public static bool JoinRandomRoom(Hashtable expectedCustomRoomProperties, int expectedMaxPlayers, MatchmakingMode matchingType, TypedLobby typedLobby, string sqlLobbyFilter, string[] expectedUsers = null)
         {
             if (OfflineMode)
             {
@@ -2200,7 +2200,7 @@ namespace Photon.Pun
         ///
         /// When done, OnRoomListUpdate gets called.
         /// </remarks>
-        /// <see cref="https://doc.photonengine.com/en-us/pun/v2/lobby-and-matchmaking/matchmaking-and-lobby/#sql_lobby_type"/>
+        /// <see href="https://doc.photonengine.com/en-us/pun/v2/lobby-and-matchmaking/matchmaking-and-lobby/#sql_lobby_type"/>
         /// <param name="typedLobby">The lobby to query. Has to be of type SqlLobby.</param>
         /// <param name="sqlLobbyFilter">The sql query statement.</param>
         /// <returns>If the operation could be sent (has to be connected).</returns>
@@ -3117,7 +3117,7 @@ namespace Photon.Pun
         /// </summary>
         /// <remarks>
         /// This is a server-side feature which must be setup in the Photon Cloud Dashboard prior to use.
-        /// <see cref="https://doc.photonengine.com/en-us/pun/v2/gameplay/web-extensions/webrpc"/>
+        /// <see href="https://doc.photonengine.com/en-us/pun/v2/gameplay/web-extensions/webrpc"/>
         /// The Parameters will be converted into JSon format, so make sure your parameters are compatible.
         ///
         /// See <see cref="Photon.Realtime.IWebRpcCallback.OnWebRpcResponse"/> on how to get a response.
@@ -3201,11 +3201,12 @@ namespace Photon.Pun
             }
 
 
-            // in the editor, store the settings file as it's not loaded
-            #if  UNITY_EDITOR
-            // don't save the settings before OnProjectUpdated got called (this hints at an ongoing import/load)
-            if (!PhotonEditorUtils.ProjectChangedWasCalled)
+            #if UNITY_EDITOR
+            // in the editor, store the settings file as it could not be loaded
+            // unless Unity still imports assets
+            if (UnityEditor.EditorApplication.isUpdating)
             {
+                EditorApplication.delayCall += delegate { LoadOrCreateSettings(true); };
                 return;
             }
 
