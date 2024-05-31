@@ -154,7 +154,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public void CompleteLevel(string winnerName) 
     {
         gameEnded = true;
-        Debug.Log("PC compeleted lvl");
 
         PCController = PC.GetComponent<PlayerController>();
         PCController.rb.velocity = Vector3.zero;

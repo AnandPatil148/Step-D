@@ -23,7 +23,6 @@ public class LevelComplete : MonoBehaviour
 
     public void SetFinalDetails(string winnerName, int StepsCount, float Score )
     {
-        Debug.Log("Set Final Details called");
         LevelCompleteUI.SetActive(true);
         txtWinnerName.text = winnerName;
         txtFinalStepScoreText.text =StepsCount.ToString() ;
