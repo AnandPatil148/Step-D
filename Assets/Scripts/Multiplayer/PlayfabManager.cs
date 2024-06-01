@@ -86,8 +86,8 @@ public class PlayfabManager : MonoBehaviour
                 GetPlayerProfile = true,
             }
         };
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess ,OnError);
         */
+        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess ,OnError);
     }
 
     private void OnLoginSuccess(LoginResult result)
